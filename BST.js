@@ -20,11 +20,11 @@ function Tree(array) {
 function buildTree(array) {
   let l = array.length;
   let sortedArr = array.sort((a, b) => a - b);
+  let cleanArr = [...new Set(sortedArr)];
   //Empty array
   if (l === 0) {
     return null;
   }
-  return sortedArr;
+  return cleanArr;
   //The buildTree function should return the level-0 root node.
 }
-
