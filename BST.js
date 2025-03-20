@@ -15,3 +15,16 @@ function Tree(array) {
     root,
   };
 }
+
+// Write a buildTree(array) function that takes an array of data and turns it into a balanced binary tree
+function buildTree(array) {
+  let l = array.length;
+  let sortedArr = array.sort((a, b) => a - b);
+  //Empty array
+  if (l === 0) {
+    return null;
+  }
+  return sortedArr;
+  //The buildTree function should return the level-0 root node.
+}
+
