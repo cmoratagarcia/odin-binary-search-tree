@@ -21,10 +21,23 @@ function buildTree(array) {
   let l = array.length;
   let sortedArr = array.sort((a, b) => a - b);
   let cleanArr = [...new Set(sortedArr)];
+
   //Empty array
   if (l === 0) {
     return null;
+  } else {
+    return arrayToBST(cleanArr, 0, cleanArr.length - 1);
   }
-  return cleanArr;
+
+  function arrayToBST(arr, start, end) {
+    if (start > end) return null;
+    const mid = Math.floor((start + end) / 2);
+    const root = Node(arr[mid]);
+    root.left = arrayToBST(arr, start, mid - 1);
+    root.right = arrayToBST(arr, mid + 1, end);
+
+    return root;
+  }
+
   //The buildTree function should return the level-0 root node.
 }
