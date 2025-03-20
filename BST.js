@@ -1,43 +1,49 @@
 // Build a Node class/factory. It should have an attribute for the data it stores as well as its left and right children.
-
-function Node(data, left = null, right = null) {
+function Node(data) {
   return {
     data,
-    left,
-    right,
+    left: null,
+    right: null,
   };
 }
 
 // Build a Tree class/factory which accepts an array when initialized. The Tree class should have a root attribute, which uses the return value of buildTree which you’ll write next.
 function Tree(array) {
-  let root = buildTree();
-  return {
-    root,
-  };
-}
-
-// Write a buildTree(array) function that takes an array of data and turns it into a balanced binary tree
-function buildTree(array) {
-  let l = array.length;
+  // Remove duplicates and sort the array
   let sortedArr = array.sort((a, b) => a - b);
   let cleanArr = [...new Set(sortedArr)];
+  let root = buildTree(cleanArr, 0, cleanArr.length - 1);
 
-  //Empty array
-  if (l === 0) {
-    return null;
-  } else {
-    return arrayToBST(cleanArr, 0, cleanArr.length - 1);
-  }
-
-  function arrayToBST(arr, start, end) {
+  // Write a buildTree(array) function that takes an array of data and turns it into a balanced binary tree
+  function buildTree(arr, start, end) {
     if (start > end) return null;
+
     const mid = Math.floor((start + end) / 2);
-    const root = Node(arr[mid]);
-    root.left = arrayToBST(arr, start, mid - 1);
-    root.right = arrayToBST(arr, mid + 1, end);
+    const node = Node(arr[mid]);
 
-    return root;
+    node.left = buildTree(arr, start, mid - 1);
+    node.right = buildTree(arr, mid + 1, end);
+    //The buildTree function should return the level-0 root node.
+    return node;
   }
+  // Pretty print function for visualization
+  const prettyPrint = (node, prefix = "", isLeft = true) => {
+    if (node === null) {
+      return;
+    }
+    if (node.right !== null) {
+      prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    }
+    console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+    if (node.left !== null) {
+      prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    }
+  };
 
-  //The buildTree function should return the level-0 root node.
+  return {
+    root,
+    prettyPrint: () => prettyPrint(root),
+  };
 }
+const tree = Tree([25, 3, 5, 200, 5]);
+console.log(tree.prettyPrint());
