@@ -26,7 +26,35 @@ function Tree(array) {
     //The buildTree function should return the level-0 root node.
     return node;
   }
-  // Pretty print function for visualization
+
+  function insert(value) {
+    //Use find function to see if duplicate and do nothing
+    //If bigger, go right
+    //If smaller, go left
+    //When no children, create new node and make it parent's LH or RH child
+  }
+
+  //function deleteItem(value)
+
+  //find(value) function that returns the node with the given value.
+  function find(value, compNode = root) {
+    // Base case: if we've reached a null node, value is not in tree
+    if (compNode === null) {
+      return null;
+    }
+    // Found the value
+    if (value === compNode.data) {
+      return compNode;
+    }
+    if (value < compNode.data) {
+      return find(value, compNode.left);
+    }
+    if (value > compNode.data) {
+      return find(value, compNode.right);
+    }
+  }
+
+  // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
       return;
@@ -42,8 +70,10 @@ function Tree(array) {
 
   return {
     root,
-    prettyPrint: () => prettyPrint(root),
+    find,
+    prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
 }
-const tree = Tree([25, 3, 5, 200, 5]);
-console.log(tree.prettyPrint());
+const tree2 = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+tree2.prettyPrint();
+console.log(tree2.find(6));
