@@ -27,13 +27,28 @@ function Tree(array) {
     return node;
   }
 
-  function insert(value) {
+  function insert(value, compNode = root) {
+    console.log(compNode);
     //Use find function to see if duplicate and do nothing
-    //If bigger, go right
+    if (find(value)) {
+      return;
+    }
     //If smaller, go left
-    //When no children, create new node and make it parent's LH or RH child
+    if (value < compNode.data) {
+      if (compNode.left) {
+        insert(value, compNode.left);
+      } else {
+        compNode.left = Node(value); //When no children, create new node and make it parent's LH or RH child
+      }
+      //If bigger, go right
+    } else if (value > compNode.data) {
+      if (compNode.right) {
+        insert(value, compNode.right);
+      } else {
+        compNode.right = Node(value);
+      }
+    }
   }
-
   //function deleteItem(value)
 
   //find(value) function that returns the node with the given value.
@@ -70,10 +85,12 @@ function Tree(array) {
 
   return {
     root,
+    insert,
     find,
     prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
 }
-const tree2 = Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const tree2 = Tree([1, 2, 3, 4, 6, 7, 10]);
+// const tree2 = Tree([7, 2, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+tree2.insert(5);
 tree2.prettyPrint();
-console.log(tree2.find(6));
