@@ -28,7 +28,6 @@ function Tree(array) {
   }
 
   function insert(value, compNode = root) {
-    console.log(compNode);
     //Use find function to see if duplicate and do nothing
     if (find(value)) {
       return;
@@ -49,7 +48,34 @@ function Tree(array) {
       }
     }
   }
-  //function deleteItem(value)
+
+  function deleteItem(value, compNode = root) {
+    if (compNode === null) return null;
+
+    if (value < compNode.data) {
+      compNode.left = deleteItem(value, compNode.left);
+    } else if (value > compNode.data) {
+      compNode.right = deleteItem(value, compNode.right);
+    } else {
+      // Case 1: No children
+      if (compNode.left === null && compNode.right === null) {
+        return null;
+      }
+      // Case 2: One child
+      if (compNode.left === null) return compNode.right;
+      if (compNode.right === null) return compNode.left;
+
+      // Case 3: Two children
+      let successor = compNode.right;
+      while (successor.left !== null) {
+        successor = successor.left;
+      }
+      compNode.data = successor.data;
+      compNode.right = deleteItem(successor.data, compNode.right);
+    }
+
+    return compNode;
+  }
 
   //find(value) function that returns the node with the given value.
   function find(value, compNode = root) {
@@ -86,6 +112,10 @@ function Tree(array) {
   return {
     root,
     insert,
+    deleteItem: (value) => {
+      //Wrapper so it always starts from root and updates root if needed
+      root = deleteItem(value, root);
+    },
     find,
     prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
