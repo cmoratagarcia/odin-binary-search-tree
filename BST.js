@@ -9,10 +9,11 @@ function Node(data) {
 
 // Build a Tree class/factory which accepts an array when initialized. The Tree class should have a root attribute, which uses the return value of buildTree which you’ll write next.
 function Tree(array) {
+  let root;
   // Remove duplicates and sort the array
   let sortedArr = array.sort((a, b) => a - b);
   let cleanArr = [...new Set(sortedArr)];
-  let root = buildTree(cleanArr, 0, cleanArr.length - 1);
+  root = buildTree(cleanArr, 0, cleanArr.length - 1);
 
   // Write a buildTree(array) function that takes an array of data and turns it into a balanced binary tree
   function buildTree(arr, start, end) {
@@ -241,7 +242,3 @@ function Tree(array) {
     prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
 }
-const tree2 = Tree([1, 2, 3, 4, 6, 7, 10]);
-// const tree2 = Tree([7, 2, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-tree2.insert(5);
-tree2.prettyPrint();
