@@ -169,20 +169,37 @@ function Tree(array) {
   }
   //Write a depth(value) function that returns the depth of the node containing the given value
   function depth(value) {
-  function findDepth(node, currentDepth = 0) {
-    if (!node) return null;
-    if (node.data === value) return currentDepth;
+    function findDepth(node, currentDepth = 0) {
+      if (!node) return null;
+      if (node.data === value) return currentDepth;
 
-    if (value < node.data) {
-      return findDepth(node.left, currentDepth + 1);
-    } else if (value > node.data) {
-      return findDepth(node.right, currentDepth + 1);
+      if (value < node.data) {
+        return findDepth(node.left, currentDepth + 1);
+      } else if (value > node.data) {
+        return findDepth(node.right, currentDepth + 1);
+      }
     }
+
+    return findDepth(root);
   }
+  //Write an isBalanced function that checks if the tree is balanced.
+  function isBalanced() {
+    function checkBalance(node) {
+      if (!node) return true; //if the current node is null, treat it as balanced
 
-  return findDepth(root);
-}
+      const leftHeight = height(node.left.data);
+      const rightHeight = height(node.right.data);
 
+      const heightDiff = Math.abs(leftHeight - rightHeight); //return a non-negative number
+
+      // If the difference is more than 1 or any subtree is unbalanced
+      if (heightDiff > 1) return false;
+
+      return checkBalance(node.left) && checkBalance(node.right);
+    }
+
+    return checkBalance(root);
+  }
   // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -208,6 +225,7 @@ function Tree(array) {
     traverseTree,
     height,
     depth,
+    isBalanced,
     prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
 }
