@@ -200,6 +200,25 @@ function Tree(array) {
 
     return checkBalance(root);
   }
+
+  //Write a rebalance function that rebalances an unbalanced tree
+  function rebalance() {
+    const values = [];
+
+    function inOrderTraversal(node) {
+      // In-order traversal to collect values
+      if (!node) return;
+      inOrderTraversal(node.left);
+      values.push(node.data);
+      inOrderTraversal(node.right);
+    }
+
+    inOrderTraversal(root);
+
+    // Rebuild the balanced tree from current values
+    root = buildTree(values, 0, values.length - 1);
+  }
+
   // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
@@ -226,6 +245,7 @@ function Tree(array) {
     height,
     depth,
     isBalanced,
+    rebalance,
     prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
 }
