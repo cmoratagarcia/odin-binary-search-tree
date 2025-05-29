@@ -187,8 +187,8 @@ function Tree(array) {
     function checkBalance(node) {
       if (!node) return true; //if the current node is null, treat it as balanced
 
-      const leftHeight = height(node.left.data);
-      const rightHeight = height(node.right.data);
+      const leftHeight = node.left ? height(node.left.data) : -1;
+      const rightHeight = node.right ? height(node.right.data) : -1;
 
       const heightDiff = Math.abs(leftHeight - rightHeight); //return a non-negative number
 
