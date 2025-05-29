@@ -205,7 +205,7 @@ function Tree(array) {
   function rebalance() {
     const values = [];
 
-    traverseTree("inOrder", (node) => values.push(node.data));
+    traverseTree("in", (node) => values.push(node.data));
 
     // Rebuild the balanced tree from current values
     root = buildTree(values, 0, values.length - 1);
