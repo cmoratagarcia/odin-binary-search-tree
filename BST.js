@@ -205,15 +205,7 @@ function Tree(array) {
   function rebalance() {
     const values = [];
 
-    function inOrderTraversal(node) {
-      // In-order traversal to collect values
-      if (!node) return;
-      inOrderTraversal(node.left);
-      values.push(node.data);
-      inOrderTraversal(node.right);
-    }
-
-    inOrderTraversal(root);
+    traverseTree("inOrder", (node) => values.push(node.data));
 
     // Rebuild the balanced tree from current values
     root = buildTree(values, 0, values.length - 1);
