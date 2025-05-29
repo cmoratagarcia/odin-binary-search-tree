@@ -94,6 +94,12 @@ function Tree(array) {
       return find(value, compNode.right);
     }
   }
+  //levelOrder(callback) function that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses
+  function levelOrder(callback) {}
+  if (typeof callback !== "function") {
+    //If no callback function is provided, throw an Error
+    throw new Error("A callback function is required.");
+  }
 
   // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
