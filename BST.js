@@ -95,60 +95,78 @@ function Tree(array) {
     }
   }
   //levelOrder(callback) function that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses
-  
-//Write inOrder(callback), preOrder(callback), and postOrder(callback) functions that also accept a callback as a parameter.
-function traverseTree(order, callback) {
-  if (typeof callback !== "function") { //If no callback function is provided, throw an Error
-    throw new Error("A callback function is required.");
-  }
 
-  function inOrder(node) {
-    if (node === null) return;
-    inOrder(node.left);
-    callback(node);
-    inOrder(node.right);
-  }
+  //Write inOrder(callback), preOrder(callback), and postOrder(callback) functions that also accept a callback as a parameter.
+  function traverseTree(order, callback) {
+    if (typeof callback !== "function") {
+      //If no callback function is provided, throw an Error
+      throw new Error("A callback function is required.");
+    }
 
-  function preOrder(node) {
-    if (node === null) return;
-    callback(node);
-    preOrder(node.left);
-    preOrder(node.right);
-  }
+    function inOrder(node) {
+      if (node === null) return;
+      inOrder(node.left);
+      callback(node);
+      inOrder(node.right);
+    }
 
-  function postOrder(node) {
-    if (node === null) return;
-    postOrder(node.left);
-    postOrder(node.right);
-    callback(node);
-  }
+    function preOrder(node) {
+      if (node === null) return;
+      callback(node);
+      preOrder(node.left);
+      preOrder(node.right);
+    }
 
-  function levelOrder(queue = [root]) {//array to keep track
-    if (queue.length === 0) return;
-    const node = queue.shift();
-    callback(node);
-    if (node.left) queue.push(node.left);
-    if (node.right) queue.push(node.right);
-    levelOrder(queue); // recurse with updated queue
-  }
+    function postOrder(node) {
+      if (node === null) return;
+      postOrder(node.left);
+      postOrder(node.right);
+      callback(node);
+    }
 
-  switch (order) {
-    case "in":
-      inOrder(root);
-      break;
-    case "pre":
-      preOrder(root);
-      break;
-    case "post":
-      postOrder(root);
-      break;
-    case "level":
-      levelOrder();
-      break;
-    default:
-      throw new Error("Traversal order must be 'in', 'pre', 'post', or 'level'.");
+    function levelOrder(queue = [root]) {
+      //array to keep track
+      if (queue.length === 0) return;
+      const node = queue.shift();
+      callback(node);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+      levelOrder(queue); // recurse with updated queue
+    }
+
+    switch (order) {
+      case "in":
+        inOrder(root);
+        break;
+      case "pre":
+        preOrder(root);
+        break;
+      case "post":
+        postOrder(root);
+        break;
+      case "level":
+        levelOrder();
+        break;
+      default:
+        throw new Error(
+          "Traversal order must be 'in', 'pre', 'post', or 'level'."
+        );
+    }
   }
-}
+  //Write a height(value) function that returns the height of the node containing the given value
+  function height(value) {
+    const node = find(value); //Search using find function
+    if (!node) return null;
+
+    function calcHeight(current) {
+      if (!current) return -1; // Base case: null node has height -1
+      const leftHeight = calcHeight(current.left);
+      const rightHeight = calcHeight(current.right);
+      return 1 + Math.max(leftHeight, rightHeight); //Height = 1 + taller subtree
+    }
+
+    return calcHeight(node);
+  }
 
   // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -172,6 +190,8 @@ function traverseTree(order, callback) {
       root = deleteItem(value, root);
     },
     find,
+    traverseTree,
+    height,
     prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
 }
