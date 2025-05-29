@@ -95,23 +95,61 @@ function Tree(array) {
     }
   }
   //levelOrder(callback) function that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses
-  function levelOrder(callback) {
-  if (typeof callback !== "function") {
-    //If no callback function is provided, throw an Error
+  
+//Write inOrder(callback), preOrder(callback), and postOrder(callback) functions that also accept a callback as a parameter.
+function traverseTree(order, callback) {
+  if (typeof callback !== "function") { //If no callback function is provided, throw an Error
     throw new Error("A callback function is required.");
   }
- const queue = []; //array to keep track
-queue.push(root); // Start with the root node
 
-  while (queue.length > 0) {
-    const currentNode = queue.shift(); // Take the first node from the queue
-    callback(currentNode); // Apply the callback
+  function inOrder(node) {
+    if (node === null) return;
+    inOrder(node.left);
+    callback(node);
+    inOrder(node.right);
+  }
 
-    // Add the left and right children to the queue if they exist
-    if (currentNode.left) queue.push(currentNode.left);
-    if (currentNode.right) queue.push(currentNode.right);
+  function preOrder(node) {
+    if (node === null) return;
+    callback(node);
+    preOrder(node.left);
+    preOrder(node.right);
+  }
+
+  function postOrder(node) {
+    if (node === null) return;
+    postOrder(node.left);
+    postOrder(node.right);
+    callback(node);
+  }
+
+  function levelOrder(queue = [root]) {//array to keep track
+    if (queue.length === 0) return;
+    const node = queue.shift();
+    callback(node);
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+    levelOrder(queue); // recurse with updated queue
+  }
+
+  switch (order) {
+    case "in":
+      inOrder(root);
+      break;
+    case "pre":
+      preOrder(root);
+      break;
+    case "post":
+      postOrder(root);
+      break;
+    case "level":
+      levelOrder();
+      break;
+    default:
+      throw new Error("Traversal order must be 'in', 'pre', 'post', or 'level'.");
   }
 }
+
   // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
