@@ -95,12 +95,23 @@ function Tree(array) {
     }
   }
   //levelOrder(callback) function that accepts a callback function as its parameter. levelOrder should traverse the tree in breadth-first level order and call the callback on each node as it traverses
-  function levelOrder(callback) {}
+  function levelOrder(callback) {
   if (typeof callback !== "function") {
     //If no callback function is provided, throw an Error
     throw new Error("A callback function is required.");
   }
+ const queue = []; //array to keep track
+queue.push(root); // Start with the root node
 
+  while (queue.length > 0) {
+    const currentNode = queue.shift(); // Take the first node from the queue
+    callback(currentNode); // Apply the callback
+
+    // Add the left and right children to the queue if they exist
+    if (currentNode.left) queue.push(currentNode.left);
+    if (currentNode.right) queue.push(currentNode.right);
+  }
+}
   // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
     if (node === null) {
