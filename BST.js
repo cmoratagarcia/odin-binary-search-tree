@@ -167,6 +167,21 @@ function Tree(array) {
 
     return calcHeight(node);
   }
+  //Write a depth(value) function that returns the depth of the node containing the given value
+  function depth(value) {
+  function findDepth(node, currentDepth = 0) {
+    if (!node) return null;
+    if (node.data === value) return currentDepth;
+
+    if (value < node.data) {
+      return findDepth(node.left, currentDepth + 1);
+    } else if (value > node.data) {
+      return findDepth(node.right, currentDepth + 1);
+    }
+  }
+
+  return findDepth(root);
+}
 
   // Pretty print function for visualization. Provided by the OP.
   const prettyPrint = (node, prefix = "", isLeft = true) => {
@@ -192,6 +207,7 @@ function Tree(array) {
     find,
     traverseTree,
     height,
+    depth,
     prettyPrint: () => prettyPrint(root), //Wrapper so it is always called with the correct root node
   };
 }
